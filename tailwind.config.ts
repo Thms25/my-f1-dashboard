@@ -8,12 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        lighter: '#F2EFE5',
+        light: '#D8D9DA',
+        main: '#61677A',
+        dark: '#272829',
+      },
       fontFamily: {
         title: ['DM Serif Display', 'serif'],
         subtitle: ['Montserrat', 'sans-serif'],
         main: ['Lato', 'sans-serif'],
         caption: ['Roboto', 'sans-serif'],
+        fancy: ['Calligraffitti', 'cursive'],
       },
       fontSize: {
         xs: 'clamp(0.75rem, calc(0.75rem + 0.5vw), 0.875rem)', // 12px to 14px
