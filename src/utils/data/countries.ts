@@ -1303,3 +1303,9 @@ export const countries = [
     code: 'uk',
   },
 ]
+
+export function getFlag(name: string) {
+  const found_country = countries.find(country => country.country === name)
+
+  return found_country ? found_country.flag : ''
+}
