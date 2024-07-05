@@ -1,3 +1,17 @@
+export function getResultFromSession(session: any, drivers: any[]) {
+  const raceResult = Object.keys(session).map(driverNumber => {
+    const driverStandings = session[driverNumber]
+    const lastPosition = driverStandings[driverStandings.length - 1].position
+    const startingPosition = driverStandings[0].position
+    const points = getRacePoints(lastPosition)
+    const driverData = drivers.find(
+      (driver: any) => driver.driver_number === +driverNumber,
+    )
+    return { ...driverData, raceResult: lastPosition, startingPosition, points }
+  })
+  return raceResult.sort((a, b) => a.raceResult - b.raceResult)
+}
+
 export function getRacePoints(position: number) {
   switch (position) {
     case 1:

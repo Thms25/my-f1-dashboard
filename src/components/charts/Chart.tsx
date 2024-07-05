@@ -3,15 +3,13 @@ import Chart from 'react-apexcharts'
 type ChartProps = {
   options: any
   series: any
-  type: string
   width: string
   height: string
   className?: string
 }
-export default function Chart({
+export default function useChart({
   options,
   series,
-  type,
   width,
   height,
   className,
@@ -20,7 +18,6 @@ export default function Chart({
     <Chart
       options={options}
       series={series}
-      type={type}
       width={width}
       height={height}
       className={className}

@@ -409,6 +409,11 @@ export const countries = [
     code: 'gb',
   },
   {
+    flag: 'https://twemoji.maxcdn.com/2/svg/1f1ec-1f1e7.svg',
+    country: 'Great Britain',
+    code: 'gb',
+  },
+  {
     flag: 'https://twemoji.maxcdn.com/2/svg/1f1ec-1f1e9.svg',
     country: 'Grenada',
     code: 'gd',
