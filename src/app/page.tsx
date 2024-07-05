@@ -7,8 +7,11 @@ export default async function Home() {
   const drivers = await getDrivers()
   const races = await getRaces('2024')
 
-  const standongs = await getStandings(races, drivers)
+  const { driver_standings, team_standings } = await getStandings(
+    races,
+    drivers,
+  )
 
-  console.log(standongs)
+  // console.log(standongs)
   return <HomeView drivers={drivers} races={races} />
 }

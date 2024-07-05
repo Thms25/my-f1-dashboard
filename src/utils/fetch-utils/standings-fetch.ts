@@ -1,9 +1,27 @@
 import { getResultFromSession } from '../points-calculator'
 import { getRaceSessions, getSessionStandings } from './races-fetch'
 
+type DriverResult = {
+  driver_number: number
+  points: number
+  position: number
+  session_key: number
+  meeting_key: number
+  broadcast_name: string
+  country_code: string
+  first_name: string
+  full_name: string
+  headshot_url: string
+  last_name: string
+  team_colour: string
+  team_name: string
+  name_acronym: string
+  raceResult: number
+  startingPosition: number
+}
 export async function getStandings(races: any[], drivers: any[]) {
   try {
-    const drivers_results = {}
+    const drivers_results: Record<number, DriverResult> = {}
     for (const race of races) {
       const race_session = await getRaceSessions(
         race.meeting_key,
@@ -11,7 +29,7 @@ export async function getStandings(races: any[], drivers: any[]) {
         'Race',
       )
 
-      if (race_session.length === 0) return
+      if (race_session.length === 0) continue
 
       for (const session of race_session) {
         const race_standings = await getSessionStandings(
@@ -19,10 +37,13 @@ export async function getStandings(races: any[], drivers: any[]) {
           session.meeting_key,
         )
 
-        const race_result = getResultFromSession(race_standings, drivers)
-        console.log(race_result)
+        const race_result = getResultFromSession(
+          race_standings,
+          drivers,
+        ) as DriverResult[]
 
         for (const result of race_result) {
+          if (!result.driver_number) continue
           if (!drivers_results[result.driver_number]) {
             drivers_results[result.driver_number] = { ...result }
           } else {
@@ -32,8 +53,30 @@ export async function getStandings(races: any[], drivers: any[]) {
       }
     }
 
-    return drivers_results
+    const driver_standings = Object.values(drivers_results)
+      .map(driverData => {
+        return {
+          ...driverData,
+        }
+      })
+      .sort((a, b) => b.points - a.points)
+
+    const team_standings = driver_standings.reduce((acc: any, driver: any) => {
+      if (!acc[driver.team_name]) {
+        acc[driver.team_name] = {
+          team_name: driver.team_name,
+          team_colour: driver.team_colour,
+          points: driver.points,
+        }
+      } else {
+        acc[driver.team_name].points += driver.points
+      }
+      return acc
+    }, {})
+
+    return { driver_standings, team_standings }
   } catch (error: any) {
+    console.log(error)
     throw new Error(error)
   }
 }
