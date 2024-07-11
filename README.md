@@ -1,13 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project
+## NODE.JS
 
-This is a basic template for upcoming next projects
+- Node 16.x || 18.x
 
-## Getting Started
+## USING YARN (Recommend)
 
-```bash
-npm install
-# then
-npm run dev
-```
+- yarn install
+- yarn dev
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## USING NPM
+
+- npm i OR npm i --legacy-peer-deps
+- npm run dev

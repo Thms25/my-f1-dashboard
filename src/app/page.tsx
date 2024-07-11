@@ -1,17 +1,16 @@
-import HomeView from '@/sections/home/home-view'
-import { getDrivers } from '@/utils/fetch-utils/driver-fetch'
-import { getRaces } from '@/utils/fetch-utils/races-fetch'
-import { getStandings } from '@/utils/fetch-utils/standings-fetch'
+// sections
+import HomeView from '@/sections/home/home-view';
 
-export default async function Home() {
-  const drivers = await getDrivers()
-  const races = await getRaces('2024')
+import { getDrivers } from '@/utils/fetch-utils/driver-fetch';
+import { getRaces } from '@/utils/fetch-utils/races-fetch';
+import { getStandings } from '@/utils/fetch-utils/standings-fetch';
+// ----------------------------------------------------------------------
 
-  const { driver_standings, team_standings } = await getStandings(
-    races,
-    drivers,
-  )
+export default async function HomePage() {
+  const drivers = await getDrivers();
+  const races = await getRaces('2024');
 
-  // console.log(standongs)
-  return <HomeView drivers={drivers} races={races} />
+  const { driver_standings, team_standings } = await getStandings(races, drivers);
+  // console.log(driver_standings);
+  return <HomeView drivers={drivers} />;
 }
