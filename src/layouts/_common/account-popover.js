@@ -27,12 +27,12 @@ const OPTIONS = [
   },
   {
     label: 'Profile',
-    linkTo: paths.dashboard.user.profile,
+    linkTo: paths.driver.root,
   },
-  {
-    label: 'Settings',
-    linkTo: paths.dashboard.user.account,
-  },
+  // {
+  //   label: 'Settings',
+  //   linkTo: paths.dashboard.user.account,
+  // },
 ];
 
 // ----------------------------------------------------------------------

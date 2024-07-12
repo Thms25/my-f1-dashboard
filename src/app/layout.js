@@ -37,7 +37,6 @@ import SnackbarProvider from 'src/components/snackbar/snackbar-provider';
 import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
 
 // sections
-import { CheckoutProvider } from 'src/sections/checkout/context';
 import DashboardLayout from 'src/layouts/dashboard/layout';
 
 // ----------------------------------------------------------------------
@@ -55,24 +54,12 @@ export const metadata = {
   icons: [
     {
       rel: 'icon',
-      url: '/favicon/favicon.ico',
+      url: '/logo/f1-logo.png',
     },
     {
       rel: 'icon',
       type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon/favicon-16x16.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon/favicon-32x32.png',
-    },
-    {
-      rel: 'apple-touch-icon',
-      sizes: '180x180',
-      url: '/favicon/apple-touch-icon.png',
+      url: '/logo/f1-logo.png',
     },
   ],
 };
@@ -95,12 +82,10 @@ export default function RootLayout({ children }) {
             <ThemeProvider>
               <MotionLazy>
                 <SnackbarProvider>
-                  <CheckoutProvider>
-                    <SettingsDrawer />
-                    <ProgressBar />
+                  <SettingsDrawer />
+                  <ProgressBar />
 
-                    <DashboardLayout>{children}</DashboardLayout>
-                  </CheckoutProvider>
+                  <DashboardLayout>{children}</DashboardLayout>
                 </SnackbarProvider>
               </MotionLazy>
             </ThemeProvider>

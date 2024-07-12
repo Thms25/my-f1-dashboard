@@ -32,8 +32,8 @@ export default function HomeStandings({ title, tableData, tableLabels, ...other 
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
-              {tableData.map((row) => (
-                <AppNewInvoiceRow key={row.id} row={row} />
+              {tableData.map((row, index) => (
+                <AppNewInvoiceRow key={index} row={row} />
               ))}
             </TableBody>
           </Table>
@@ -67,6 +67,9 @@ HomeStandings.propTypes = {
 function AppNewInvoiceRow({ row }) {
   return (
     <TableRow>
+      {/* {Object.keys(row).map((cell, index) => (
+        <TableCell key={index}>{row[cell]}</TableCell>
+      ))} */}
       <TableCell>
         <Avatar alt={row.full_name} src={row.headshot_url} />
       </TableCell>

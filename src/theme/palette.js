@@ -18,21 +18,39 @@ const GREY = {
 };
 
 const PRIMARY = {
-  lighter: '#C8FAD6',
-  light: '#5BE49B',
-  main: '#00A76F',
-  dark: '#007867',
-  darker: '#004B50',
-  contrastText: '#FFFFFF',
+  lighter: '#986161',
+  light: '#994d4d',
+  main: '#9A3B3B',
+  dark: '#8b3232',
+  darker: '#782727',
+  contrastText: '#581717',
 };
 
 const SECONDARY = {
-  lighter: '#EFD6FF',
-  light: '#C684FF',
-  main: '#8E33FF',
-  dark: '#5119B7',
-  darker: '#27097A',
-  contrastText: '#FFFFFF',
+  lighter: '#c19781',
+  light: '#bf8d73',
+  main: '#C08261',
+  dark: '#ae7a5d',
+  darker: '#9e6b50',
+  contrastText: '#64412e',
+};
+
+const TERNARY = {
+  lighter: '#e2cfaf',
+  light: '#e2cba4',
+  main: '#E2C799',
+  dark: '#d1b88d',
+  darker: '#bba47e',
+  contrastText: '#7b6c54',
+};
+
+const BASE = {
+  lighter: '#f3efd5',
+  light: '#f1ecc7',
+  main: '#F2ECBE',
+  dark: '#e1dbb0',
+  darker: '#cdc8a1',
+  contrastText: '#858168',
 };
 
 const INFO = {
@@ -78,6 +96,8 @@ const COMMON = {
   },
   primary: PRIMARY,
   secondary: SECONDARY,
+  ternary: TERNARY,
+  base: BASE,
   info: INFO,
   success: SUCCESS,
   warning: WARNING,

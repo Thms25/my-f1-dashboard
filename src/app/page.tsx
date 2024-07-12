@@ -11,6 +11,5 @@ export default async function HomePage() {
   const races = await getRaces('2024');
 
   const { driver_standings, team_standings } = await getStandings(races, drivers);
-  // console.log(driver_standings);
-  return <HomeView drivers={drivers} />;
+  return <HomeView driversStandings={driver_standings} teamStandings={team_standings} />;
 }
