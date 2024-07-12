@@ -16,7 +16,7 @@ type DriversTableRowProps = {
 };
 
 export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps) {
-  const { full_name, driver_number, team_name, headshot_url, country_code } = row;
+  const { full_name, driver_number, team_name, headshot_url, country_code, name_acronym } = row;
 
   return (
     <TableRow hover>
@@ -28,7 +28,7 @@ export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps
 
         <ListItemText
           primary={full_name}
-          secondary={driver_number}
+          secondary={country_code}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{
             component: 'span',
@@ -48,6 +48,20 @@ export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps
           }}
         >
           {team_name}
+        </Box>
+      </TableCell>
+
+      <TableCell>
+        <Box
+          onClick={() => onViewRow()}
+          sx={{
+            cursor: 'pointer',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          }}
+        >
+          {driver_number}
         </Box>
       </TableCell>
 

@@ -2,20 +2,14 @@
 
 import { useState, useCallback } from 'react';
 // @mui
-import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // components
 import Scrollbar from 'src/components/scrollbar';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import {
   useTable,
   getComparator,
@@ -37,7 +31,8 @@ import { Driver } from '@/utils/types/types';
 const TABLE_HEAD = [
   { id: 'name', label: 'Driver' },
   { id: 'team', label: 'Team' },
-  { id: 'status', label: '' },
+  { id: 'number', label: 'Driver Number' },
+  { id: 'view', label: '' },
 ];
 
 const defaultFilters = {
@@ -67,7 +62,7 @@ export default function DriversTable({ data }: { data: Driver[] }) {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name, value) => {
+    (name: string, value: string) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -90,90 +85,71 @@ export default function DriversTable({ data }: { data: Driver[] }) {
 
   return (
     <>
-      <Container maxWidth="xl">
-        <CustomBreadcrumbs
-          heading="2024 Races"
-          links={[
-            {
-              name: 'Races',
-              href: paths.race.root,
-            },
+      <DriversTableToolbar
+        filters={filters}
+        onFilters={handleFilters}
+        //
+        canReset={canReset}
+        onResetFilters={handleResetFilters}
+      />
 
-            { name: '2024' },
-          ]}
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
+      {canReset && (
+        <DriversTableFiltersResult
+          filters={filters}
+          onFilters={handleFilters}
+          //
+          onResetFilters={handleResetFilters}
+          //
+          results={dataFiltered.length}
+          sx={{ p: 2.5, pt: 0 }}
         />
+      )}
 
-        <Card>
-          <DriversTableToolbar
-            filters={filters}
-            onFilters={handleFilters}
-            //
-            canReset={canReset}
-            onResetFilters={handleResetFilters}
-          />
-
-          {canReset && (
-            <DriversTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
+      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+        <Scrollbar>
+          <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 300 }}>
+            <TableHeadCustom
+              order={table.order}
+              orderBy={table.orderBy}
+              headLabel={TABLE_HEAD}
+              rowCount={data.length}
+              numSelected={table.selected.length}
+              onSort={table.onSort}
             />
-          )}
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={data.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                />
-
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <DriversTableRow
-                        key={row.driver_number}
-                        row={row}
-                        onViewRow={() => handleViewRow(row.name_acronym)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, data.length)}
+            <TableBody>
+              {dataFiltered
+                .slice(
+                  table.page * table.rowsPerPage,
+                  table.page * table.rowsPerPage + table.rowsPerPage
+                )
+                .map((row) => (
+                  <DriversTableRow
+                    key={row.driver_number}
+                    row={row}
+                    onViewRow={() => handleViewRow(row.name_acronym)}
                   />
+                ))}
 
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
+              <TableEmptyRows
+                height={denseHeight}
+                emptyRows={emptyRows(table.page, table.rowsPerPage, data.length)}
+              />
 
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            dense={table.dense}
-          />
-        </Card>
-      </Container>
+              <TableNoData notFound={notFound} />
+            </TableBody>
+          </Table>
+        </Scrollbar>
+      </TableContainer>
+
+      <TablePaginationCustom
+        count={dataFiltered.length}
+        page={table.page}
+        rowsPerPage={table.rowsPerPage}
+        onPageChange={table.onChangePage}
+        onRowsPerPageChange={table.onChangeRowsPerPage}
+        dense={table.dense}
+      />
     </>
   );
 }

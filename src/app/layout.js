@@ -34,7 +34,7 @@ import { primaryFont } from 'src/theme/typography';
 import ProgressBar from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import SnackbarProvider from 'src/components/snackbar/snackbar-provider';
-import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
+import { SettingsProvider } from 'src/components/settings';
 
 // sections
 import DashboardLayout from 'src/layouts/dashboard/layout';
@@ -82,9 +82,7 @@ export default function RootLayout({ children }) {
             <ThemeProvider>
               <MotionLazy>
                 <SnackbarProvider>
-                  <SettingsDrawer />
                   <ProgressBar />
-
                   <DashboardLayout>{children}</DashboardLayout>
                 </SnackbarProvider>
               </MotionLazy>

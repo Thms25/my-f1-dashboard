@@ -1,22 +1,19 @@
 'use client';
 
+// Hooks
 import { useState, useCallback } from 'react';
 // @mui
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
-// routes
-import { paths } from 'src/routes/paths';
+import Iconify from 'src/components/iconify';
+
 // _mock
 import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from 'src/_mock';
-// components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-//
 
-import ProfileCover from '../user/profile-cover';
-import ProfileGallery from '../user/profile-gallery';
+// components
+import DriverProfileCover from './driver-profile-cover';
 import DriverProfileHome from './driver-profile-home';
 
 // ----------------------------------------------------------------------
@@ -45,25 +42,16 @@ export default function DriverProfileView({ driver }) {
 
   return (
     <Container maxWidth="xl">
-      <CustomBreadcrumbs
-        heading="Profile"
-        links={[{ name: 'Driver', href: paths.driver.root }, { name: driver.full_name }]}
-        sx={{
-          mb: 2,
-        }}
-      />
-
       <Card
         sx={{
           mb: 3,
-          height: 290,
+          height: 180,
         }}
       >
-        <ProfileCover
-          // role={_userAbout.role}
+        <DriverProfileCover
+          team={driver.team_name}
           name={driver.full_name}
           avatarUrl={driver.headshot_url}
-          // coverUrl={driver.coverUrl}
         />
 
         <Tabs
@@ -91,8 +79,6 @@ export default function DriverProfileView({ driver }) {
       </Card>
 
       {currentTab === 'profile' && <DriverProfileHome info={_userAbout} posts={_userFeeds} />}
-
-      {/* {currentTab === 'stats' && <ProfileGallery gallery={_userGallery} />} */}
     </Container>
   );
 }

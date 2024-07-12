@@ -51,18 +51,20 @@ export async function getStandings(races: any[], drivers: any[]) {
       })
       .sort((a, b) => b.points - a.points);
 
-    const team_standings = driver_standings.reduce((acc: any, driver: any) => {
-      if (!acc[driver.team_name]) {
-        acc[driver.team_name] = {
+    const team_standings = [];
+
+    driver_standings.forEach((driver: any) => {
+      const team = team_standings.find((team: any) => team.team_name === driver.team_name);
+      if (team) {
+        team.points += driver.points;
+      } else {
+        team_standings.push({
           team_name: driver.team_name,
           team_colour: driver.team_colour,
           points: driver.points,
-        };
-      } else {
-        acc[driver.team_name].points += driver.points;
+        });
       }
-      return acc;
-    }, {});
+    });
 
     return { driver_standings, team_standings };
   } catch (error: any) {

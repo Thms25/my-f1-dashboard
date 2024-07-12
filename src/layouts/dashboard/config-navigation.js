@@ -10,13 +10,10 @@ import SvgColor from 'src/components/svg-color';
 
 const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-  // OR
-  // <Iconify icon="fluent:mail-24-filled" />
-  // https://icon-sets.iconify.design/solar/
-  // https://www.streamlinehq.com/icons
 );
 
 const ICONS = {
+  home: icon('ic_home'),
   job: icon('ic_job'),
   blog: icon('ic_blog'),
   chat: icon('ic_chat'),
@@ -56,6 +53,11 @@ export function useNavData() {
         subheader: t('overview'),
         items: [
           {
+            title: t('home'),
+            path: paths.home,
+            icon: ICONS.home,
+          },
+          {
             title: t('drivers'),
             path: paths.driver.root,
             icon: ICONS.user,
@@ -63,49 +65,47 @@ export function useNavData() {
           {
             title: t('races'),
             path: paths.race.root,
-            icon: ICONS.dashboard,
+            icon: ICONS.external,
           },
         ],
       },
 
-      // MANAGEMENT
-      // ----------------------------------------------------------------------
-      {
-        subheader: t('management'),
-        items: [
-          // USER
-          {
-            title: t('driver'),
-            path: paths.driver.root,
-            icon: ICONS.user,
-            children: [
-              { title: t('all'), path: paths.driver.root },
-              { title: t('cards'), path: paths.driver.root },
-            ],
-          },
+      // {
+      //   subheader: t('management'),
+      //   items: [
+      //     // USER
+      //     {
+      //       title: t('driver'),
+      //       path: paths.driver.root,
+      //       icon: ICONS.user,
+      //       children: [
+      //         { title: t('all'), path: paths.driver.root },
+      //         { title: t('cards'), path: paths.driver.root },
+      //       ],
+      //     },
 
-          // PRODUCT
-          {
-            title: t('races'),
-            path: paths.home,
-            icon: ICONS.product,
-            children: [
-              { title: t('completed'), path: paths.home },
-              {
-                title: t('upcoming'),
-                path: paths.home,
-              },
-            ],
-          },
+      //     // PRODUCT
+      //     {
+      //       title: t('races'),
+      //       path: paths.home,
+      //       icon: ICONS.product,
+      //       children: [
+      //         { title: t('completed'), path: paths.home },
+      //         {
+      //           title: t('upcoming'),
+      //           path: paths.home,
+      //         },
+      //       ],
+      //     },
 
-          // CALENDAR
-          {
-            title: t('calendar'),
-            path: paths.home,
-            icon: ICONS.calendar,
-          },
-        ],
-      },
+      //     // CALENDAR
+      //     {
+      //       title: t('calendar'),
+      //       path: paths.home,
+      //       icon: ICONS.calendar,
+      //     },
+      //   ],
+      // },
     ],
     [t]
   );

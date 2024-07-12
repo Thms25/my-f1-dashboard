@@ -1,7 +1,7 @@
 // @mui
 // import { useTheme } from '@mui/material/styles';
 
-import { Container } from '@mui/material';
+import { Card, CardHeader, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 // Hooks
@@ -21,10 +21,40 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
     <Container maxWidth="xl">
       <Grid container spacing={3}>
         <Grid xs={12} lg={6}>
-          <StandingsTable data={driversStandings} />
+          <Card>
+            <CardHeader
+              title="Driver Championship Standings"
+              subheader="2024 Season"
+              sx={{ mb: 3 }}
+            />
+            <StandingsTable
+              data={driversStandings}
+              showSearch
+              head={[
+                { id: 'rank', label: 'Rank' },
+                { id: 'name', label: 'Driver' },
+                { id: 'team', label: 'Team' },
+                { id: 'points', label: 'Points' },
+              ]}
+            />
+          </Card>
         </Grid>
         <Grid xs={12} lg={6}>
-          {/* <StandingsTable data={teamStandings} /> */}
+          <Card>
+            <CardHeader
+              title="Team Championship Standings"
+              subheader="2024 Season"
+              sx={{ mb: 3 }}
+            />
+            <StandingsTable
+              data={teamStandings}
+              head={[
+                { id: 'rank', label: 'Rank' },
+                { id: 'team', label: 'Team' },
+                { id: 'points', label: 'Points' },
+              ]}
+            />
+          </Card>
         </Grid>
       </Grid>
     </Container>

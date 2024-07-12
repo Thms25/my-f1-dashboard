@@ -4,18 +4,15 @@ import { useState, useCallback } from 'react';
 // @mui
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // components
 import Scrollbar from 'src/components/scrollbar';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import {
   useTable,
   getComparator,
@@ -30,14 +27,9 @@ import {
 import StandingsTableFiltersResult from './standings-table-filters-result';
 import StandingsTableRow from './standings-table-row';
 import StandingsTableToolbar from './standings-table-toolbar';
+import { Driver } from '@/utils/types/types';
 
 // ----------------------------------------------------------------------
-
-const TABLE_HEAD = [
-  { id: 'name', label: 'Driver' },
-  { id: 'team', label: 'Team' },
-  { id: 'points', label: 'Points' },
-];
 
 const defaultFilters = {
   name: '',
@@ -47,7 +39,13 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function StandingsTable({ data }: { data: any[] }) {
+type StandingsTableProps = {
+  data: any[];
+  showSearch?: boolean;
+  head: any[];
+};
+
+export default function StandingsTable({ data, showSearch = false, head }: StandingsTableProps) {
   const table = useTable();
   const router = useRouter();
 
@@ -89,75 +87,73 @@ export default function StandingsTable({ data }: { data: any[] }) {
 
   return (
     <>
-      <Container maxWidth="xl">
-        <Card>
-          <StandingsTableToolbar
-            filters={filters}
-            onFilters={handleFilters}
-            //
-            canReset={canReset}
-            onResetFilters={handleResetFilters}
-          />
+      {showSearch && (
+        <StandingsTableToolbar
+          filters={filters}
+          onFilters={handleFilters}
+          canReset={canReset}
+          onResetFilters={handleResetFilters}
+        />
+      )}
 
-          {canReset && (
-            <StandingsTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
+      {canReset && (
+        <StandingsTableFiltersResult
+          filters={filters}
+          onFilters={handleFilters}
+          //
+          onResetFilters={handleResetFilters}
+          //
+          results={dataFiltered.length}
+          sx={{ p: 2.5, pt: 0 }}
+        />
+      )}
+
+      <TableContainer>
+        <Scrollbar>
+          <Table size="medium" sx={{ minWidth: 300 }}>
+            <TableHeadCustom
+              order={table.order}
+              orderBy={table.orderBy}
+              headLabel={head}
+              rowCount={data.length}
+              numSelected={table.selected.length}
+              onSort={table.onSort}
             />
-          )}
 
-          <TableContainer>
-            <Scrollbar>
-              <Table size="medium" sx={{ minWidth: 300 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={data.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                />
-
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <StandingsTableRow
-                        key={row.driver_number}
-                        row={row}
-                        onViewRow={() => handleViewRow(row.name_acronym)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, data.length)}
+            <TableBody>
+              {dataFiltered
+                .slice(
+                  table.page * table.rowsPerPage,
+                  table.page * table.rowsPerPage + table.rowsPerPage
+                )
+                .map((row: any, index: number) => (
+                  <StandingsTableRow
+                    key={index}
+                    row={row}
+                    onViewRow={() => handleViewRow(row.name_acronym)}
+                    rank={index + 1}
                   />
+                ))}
 
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
+              <TableEmptyRows
+                height={denseHeight}
+                emptyRows={emptyRows(table.page, table.rowsPerPage, data.length)}
+              />
 
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            dense={table.dense}
-          />
-        </Card>
-      </Container>
+              <TableNoData notFound={notFound} />
+            </TableBody>
+          </Table>
+        </Scrollbar>
+      </TableContainer>
+
+      <TablePaginationCustom
+        count={dataFiltered.length}
+        page={table.page}
+        rowsPerPage={table.rowsPerPage}
+        onPageChange={table.onChangePage}
+        onRowsPerPageChange={table.onChangeRowsPerPage}
+        dense={table.dense}
+      />
     </>
   );
 }
@@ -167,7 +163,7 @@ export default function StandingsTable({ data }: { data: any[] }) {
 function applyFilter({ inputData, comparator, filters }) {
   const { name } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
+  const stabilizedThis = inputData.map((el: any, index: number) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -179,7 +175,7 @@ function applyFilter({ inputData, comparator, filters }) {
 
   if (name) {
     inputData = inputData.filter(
-      (driver: Driver) =>
+      (driver: Driver | any) =>
         driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
         driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
         driver.country_code.toLowerCase().indexOf(name.toLowerCase()) !== -1

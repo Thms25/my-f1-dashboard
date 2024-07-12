@@ -3,12 +3,9 @@ import { format } from 'date-fns';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
-import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -17,15 +14,12 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { Race } from '@/utils/types/types';
 
 // ----------------------------------------------------------------------
 
 type RacesTableRowProps = {
   row: Race;
-
   onViewRow: () => void;
 };
 
@@ -40,7 +34,7 @@ export default function RacesTableRow({ row, onViewRow }: RacesTableRowProps) {
         sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
         onClick={() => onViewRow()}
       >
-        <Avatar alt={circuit_short_name} src={flag} sx={{ mr: 2 }} />
+        <Iconify icon={flag} sx={{ mr: 2, height: 40, width: 40 }} />
 
         <ListItemText
           primary={circuit_short_name}

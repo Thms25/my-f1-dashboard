@@ -1307,10 +1307,10 @@ export const countries = [
     country: 'Wales',
     code: 'uk',
   },
-]
+];
 
 export function getFlag(name: string) {
-  const found_country = countries.find(country => country.country === name)
+  const found_country = countries.find((country) => country.country === name);
 
-  return found_country ? found_country.flag : ''
+  return found_country ? `flag:${found_country.code}-4x3` : 'noto-v1:world-map';
 }

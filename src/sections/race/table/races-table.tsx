@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 // @mui
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
@@ -20,8 +19,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+
 import {
   useTable,
   getComparator,
@@ -104,27 +102,6 @@ export default function RacesTable({ data }: { data: Race[] }) {
     [table]
   );
 
-  const handleDeleteRow = useCallback(
-    (id) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
-      setTableData(deleteRow);
-
-      table.onUpdatePageDeleteRow(dataInPage.length);
-    },
-    [dataInPage.length, table, tableData]
-  );
-
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
   }, []);
@@ -144,169 +121,129 @@ export default function RacesTable({ data }: { data: Race[] }) {
   );
 
   return (
-    <>
-      <Container maxWidth="xl">
-        <CustomBreadcrumbs
-          heading="2024 Races"
-          links={[
-            {
-              name: 'Races',
-              href: paths.race.root,
-            },
-
-            { name: '2024' },
-          ]}
+    <Container maxWidth="xl">
+      <Card>
+        <Tabs
+          value={filters.status}
+          onChange={handleFilterStatus}
           sx={{
-            mb: { xs: 3, md: 5 },
+            px: 2.5,
+            boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
           }}
+        >
+          {STATUS_OPTIONS.map((tab) => (
+            <Tab
+              key={tab.value}
+              iconPosition="end"
+              value={tab.value}
+              label={tab.label}
+              icon={
+                <Label
+                  variant={
+                    ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                  }
+                  color={
+                    (tab.value === 'completed' && 'success') ||
+                    (tab.value === 'upcoming' && 'info') ||
+                    'default'
+                  }
+                >
+                  {tab.value === 'all' && data.length}
+                  {tab.value === 'completed' && data.filter((race) => race.completed).length}
+                  {tab.value === 'upcoming' && data.filter((race) => !race.completed).length}
+                </Label>
+              }
+            />
+          ))}
+        </Tabs>
+
+        <RacesTableToolbar
+          filters={filters}
+          onFilters={handleFilters}
+          //
+          canReset={canReset}
+          onResetFilters={handleResetFilters}
         />
 
-        <Card>
-          <Tabs
-            value={filters.status}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2.5,
-              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
-            }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab
-                key={tab.value}
-                iconPosition="end"
-                value={tab.value}
-                label={tab.label}
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
-                    }
-                    color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'upcoming' && 'info') ||
-                      'default'
-                    }
-                  >
-                    {tab.value === 'all' && data.length}
-                    {tab.value === 'completed' && data.filter((race) => race.completed).length}
-                    {tab.value === 'upcoming' && data.filter((race) => !race.completed).length}
-                  </Label>
-                }
-              />
-            ))}
-          </Tabs>
-
-          <RacesTableToolbar
+        {canReset && (
+          <RacesTableFiltersResult
             filters={filters}
             onFilters={handleFilters}
             //
-            canReset={canReset}
             onResetFilters={handleResetFilters}
+            //
+            results={dataFiltered.length}
+            sx={{ p: 2.5, pt: 0 }}
+          />
+        )}
+
+        <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableSelectedAction
+            dense={table.dense}
+            numSelected={table.selected.length}
+            rowCount={tableData.length}
+            onSelectAllRows={(checked) =>
+              table.onSelectAllRows(
+                checked,
+                tableData.map((row) => row.id)
+              )
+            }
+            action={
+              <Tooltip title="Delete">
+                <IconButton color="primary" onClick={confirm.onTrue}>
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                </IconButton>
+              </Tooltip>
+            }
           />
 
-          {canReset && (
-            <RacesTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
+          <Scrollbar>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={tableData.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+              />
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={tableData.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  tableData.map((row) => row.id)
-                )
-              }
-              action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <RacesTableRow
+                      key={row.id}
+                      row={row}
+                      onViewRow={() => handleViewRow(row.country_code)}
+                    />
+                  ))}
 
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
+                <TableEmptyRows
+                  height={denseHeight}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
                 />
 
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <RacesTableRow
-                        key={row.id}
-                        row={row}
-                        onViewRow={() => handleViewRow(row.country_code)}
-                      />
-                    ))}
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </TableContainer>
 
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
-
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            //
-            dense={table.dense}
-          />
-        </Card>
-      </Container>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
-        action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
-          >
-            Delete
-          </Button>
-        }
-      />
-    </>
+        <TablePaginationCustom
+          count={dataFiltered.length}
+          page={table.page}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+          //
+          dense={table.dense}
+        />
+      </Card>
+    </Container>
   );
 }
 
