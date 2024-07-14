@@ -25,6 +25,7 @@ import DriversTableFiltersResult from './drivers-table-filters-result';
 import DriversTableRow from './drivers-table-row';
 import DriversTableToolbar from './drivers-table-toolbar';
 import { Driver } from '@/utils/types/types';
+import { TablePagination } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -142,13 +143,13 @@ export default function DriversTable({ data }: { data: Driver[] }) {
         </Scrollbar>
       </TableContainer>
 
-      <TablePaginationCustom
+      <TablePagination
+        component="div"
         count={dataFiltered.length}
         page={table.page}
         rowsPerPage={table.rowsPerPage}
         onPageChange={table.onChangePage}
         onRowsPerPageChange={table.onChangeRowsPerPage}
-        dense={table.dense}
       />
     </>
   );

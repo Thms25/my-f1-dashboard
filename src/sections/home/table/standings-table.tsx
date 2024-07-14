@@ -28,6 +28,7 @@ import StandingsTableFiltersResult from './standings-table-filters-result';
 import StandingsTableRow from './standings-table-row';
 import StandingsTableToolbar from './standings-table-toolbar';
 import { Driver } from '@/utils/types/types';
+import { TablePagination } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -145,14 +146,13 @@ export default function StandingsTable({ data, showSearch = false, head }: Stand
           </Table>
         </Scrollbar>
       </TableContainer>
-
-      <TablePaginationCustom
+      <TablePagination
+        component="div"
         count={dataFiltered.length}
         page={table.page}
         rowsPerPage={table.rowsPerPage}
         onPageChange={table.onChangePage}
         onRowsPerPageChange={table.onChangeRowsPerPage}
-        dense={table.dense}
       />
     </>
   );

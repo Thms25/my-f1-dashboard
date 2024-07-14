@@ -19,7 +19,7 @@ type DriverResult = {
   raceResult: number;
   startingPosition: number;
 };
-export async function getStandings(races: any[], drivers: any[]) {
+export async function getStandingsOld(races: any[], drivers: any[]) {
   try {
     const drivers_results: Record<number, DriverResult> = {};
     for (const race of races) {

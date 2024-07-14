@@ -122,7 +122,7 @@ export default function RacesTableRow({ row, onViewRow }: RacesTableRowProps) {
               },
             ].map((item) => (
               <Stack
-                key={item.id}
+                key={item.name}
                 direction="row"
                 alignItems="center"
                 sx={{
@@ -132,15 +132,15 @@ export default function RacesTableRow({ row, onViewRow }: RacesTableRowProps) {
                   },
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   src={item.coverUrl}
                   variant="rounded"
                   sx={{ width: 48, height: 48, mr: 2 }}
-                />
+                /> */}
 
                 <ListItemText
                   primary={item.name}
-                  secondary={item.sku}
+                  // secondary={item.sku}
                   primaryTypographyProps={{
                     typography: 'body2',
                   }}

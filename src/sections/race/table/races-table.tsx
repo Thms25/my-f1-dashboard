@@ -4,22 +4,16 @@ import { useState, useCallback } from 'react';
 // @mui
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Tooltip from '@mui/material/Tooltip';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
-// hooks
-import { useBoolean } from 'src/hooks/use-boolean';
 // components
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-
 import {
   useTable,
   getComparator,
@@ -27,12 +21,10 @@ import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
-  TableSelectedAction,
-  TablePaginationCustom,
 } from 'src/components/table';
 //
 import { alpha } from '@mui/material/styles';
-import { Tab, Tabs } from '@mui/material';
+import { Tab, TablePagination, Tabs } from '@mui/material';
 import Label from 'src/components/label';
 
 import RacesTableFiltersResult from './races-table-filters-result';
@@ -47,7 +39,7 @@ const TABLE_HEAD = [
   { id: 'country', label: 'Country' },
   { id: 'date', label: 'Date' },
   { id: 'status', label: 'Status' },
-  { id: 'status', label: '' },
+  { id: 'view', label: '' },
 ];
 const STATUS_OPTIONS = [
   { value: 'all', label: 'All' },
@@ -68,22 +60,13 @@ export default function RacesTable({ data }: { data: Race[] }) {
 
   const router = useRouter();
 
-  const confirm = useBoolean();
-
-  const [tableData, setTableData] = useState(data);
-
   const [filters, setFilters] = useState(defaultFilters);
 
   const dataFiltered = applyFilter({
-    inputData: tableData,
+    inputData: data,
     comparator: getComparator(table.order, table.orderBy),
     filters,
   });
-
-  const dataInPage = dataFiltered.slice(
-    table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
-  );
 
   const denseHeight = table.dense ? 52 : 72;
 
@@ -92,7 +75,7 @@ export default function RacesTable({ data }: { data: Race[] }) {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name, value) => {
+    (name: string, value: string) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -135,6 +118,7 @@ export default function RacesTable({ data }: { data: Race[] }) {
             <Tab
               key={tab.value}
               iconPosition="end"
+              sx={{ gap: 0.75 }}
               value={tab.value}
               label={tab.label}
               icon={
@@ -178,32 +162,13 @@ export default function RacesTable({ data }: { data: Race[] }) {
         )}
 
         <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-          <TableSelectedAction
-            dense={table.dense}
-            numSelected={table.selected.length}
-            rowCount={tableData.length}
-            onSelectAllRows={(checked) =>
-              table.onSelectAllRows(
-                checked,
-                tableData.map((row) => row.id)
-              )
-            }
-            action={
-              <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-
           <Scrollbar>
-            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 300 }}>
               <TableHeadCustom
                 order={table.order}
                 orderBy={table.orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={tableData.length}
+                rowCount={data.length}
                 numSelected={table.selected.length}
                 onSort={table.onSort}
               />
@@ -214,9 +179,9 @@ export default function RacesTable({ data }: { data: Race[] }) {
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
-                  .map((row) => (
+                  .map((row: Race, index: number) => (
                     <RacesTableRow
-                      key={row.id}
+                      key={index}
                       row={row}
                       onViewRow={() => handleViewRow(row.country_code)}
                     />
@@ -224,7 +189,7 @@ export default function RacesTable({ data }: { data: Race[] }) {
 
                 <TableEmptyRows
                   height={denseHeight}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, data.length)}
                 />
 
                 <TableNoData notFound={notFound} />
@@ -233,14 +198,13 @@ export default function RacesTable({ data }: { data: Race[] }) {
           </Scrollbar>
         </TableContainer>
 
-        <TablePaginationCustom
+        <TablePagination
+          component="div"
           count={dataFiltered.length}
           page={table.page}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           onRowsPerPageChange={table.onChangeRowsPerPage}
-          //
-          dense={table.dense}
         />
       </Card>
     </Container>

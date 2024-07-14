@@ -45,12 +45,6 @@ export const metadata = {
   title: 'F1 Dashboard',
   description:
     'The formula 1 dashboard is a web application that provides information about the formula 1',
-  themeColor: '#000000',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
   icons: [
     {
       rel: 'icon',
