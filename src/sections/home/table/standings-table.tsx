@@ -2,10 +2,7 @@
 
 import { useState, useCallback } from 'react';
 // @mui
-import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 // routes
@@ -20,7 +17,6 @@ import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
-  TablePaginationCustom,
 } from 'src/components/table';
 
 // Components
@@ -47,7 +43,9 @@ type StandingsTableProps = {
 };
 
 export default function StandingsTable({ data, showSearch = false, head }: StandingsTableProps) {
-  const table = useTable();
+  const table = useTable({
+    orderBy: 'rank',
+  });
   const router = useRouter();
 
   const [filters, setFilters] = useState(defaultFilters);
@@ -65,7 +63,7 @@ export default function StandingsTable({ data, showSearch = false, head }: Stand
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name, value) => {
+    (name: string, value: string) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -132,7 +130,6 @@ export default function StandingsTable({ data, showSearch = false, head }: Stand
                     key={index}
                     row={row}
                     onViewRow={() => handleViewRow(row.name_acronym)}
-                    rank={index + 1}
                   />
                 ))}
 
@@ -175,10 +172,9 @@ function applyFilter({ inputData, comparator, filters }) {
 
   if (name) {
     inputData = inputData.filter(
-      (driver: Driver | any) =>
-        driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        driver.country_code.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (driver: any) =>
+        driver.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        driver.team.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 

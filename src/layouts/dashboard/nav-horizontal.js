@@ -5,8 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 // theme
 import { bgBlur } from 'src/theme/css';
-// hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+
 // components
 import { NavSectionHorizontal } from 'src/components/nav-section';
 //
@@ -18,8 +17,6 @@ import { HeaderShadow } from '../_common';
 
 function NavHorizontal() {
   const theme = useTheme();
-
-  const { user } = useMockedUser();
 
   const navData = useNavData();
 
@@ -37,12 +34,7 @@ function NavHorizontal() {
           }),
         }}
       >
-        <NavSectionHorizontal
-          data={navData}
-          config={{
-            currentRole: user?.role || 'admin',
-          }}
-        />
+        <NavSectionHorizontal data={navData} />
       </Toolbar>
 
       <HeaderShadow />

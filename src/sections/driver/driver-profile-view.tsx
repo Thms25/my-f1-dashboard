@@ -9,12 +9,8 @@ import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Iconify from 'src/components/iconify';
 
-// _mock
-import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from 'src/_mock';
-
 // components
 import DriverProfileCover from './driver-profile-cover';
-import DriverProfileHome from './driver-profile-home';
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +74,7 @@ export default function DriverProfileView({ driver }) {
         </Tabs>
       </Card>
 
-      {currentTab === 'profile' && <DriverProfileHome info={_userAbout} posts={_userFeeds} />}
+      {currentTab === 'profile' && <h1>profile tab content</h1>}
     </Container>
   );
 }

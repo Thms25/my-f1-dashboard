@@ -1,13 +1,9 @@
 // @mui
-// import { useTheme } from '@mui/material/styles';
-
 import { Card, CardHeader, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 // Hooks
 import StandingsTable from './table/standings-table';
-
-// components
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +13,7 @@ type HomeViewProps = {
 };
 
 export default function HomeView({ driversStandings, teamStandings }: HomeViewProps) {
+  console.log(teamStandings);
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3}>
@@ -28,8 +25,16 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
               sx={{ mb: 3 }}
             />
             <StandingsTable
-              data={driversStandings}
-              showSearch
+              data={driversStandings.map((driver: any) => {
+                return {
+                  rank: +driver.position,
+                  name: driver.Driver.fullName,
+                  team: driver.Constructors[0].name,
+                  points: +driver.points,
+                  image: driver.Driver.image,
+                  number: driver.driverNumber || +driver.Driver.permanentNumber,
+                };
+              })}
               head={[
                 { id: 'rank', label: 'Rank' },
                 { id: 'name', label: 'Driver' },
@@ -47,7 +52,13 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
               sx={{ mb: 3 }}
             />
             <StandingsTable
-              data={teamStandings}
+              data={teamStandings.map((team: any) => {
+                return {
+                  rank: +team.position,
+                  team: team.Constructor.name,
+                  points: +team.points,
+                };
+              })}
               head={[
                 { id: 'rank', label: 'Rank' },
                 { id: 'team', label: 'Team' },

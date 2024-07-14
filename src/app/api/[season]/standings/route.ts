@@ -1,8 +1,6 @@
 export async function GET(req: Request, { params }: { params: { season: string } }) {
-  console.log(params);
   const { searchParams } = new URL(req.url);
   const table = searchParams.get('table');
-  console.log(table);
   try {
     const res = await fetch(`${process.env.ERGAST_API}/${params.season}/${table}.json`);
     const data = await res.json();

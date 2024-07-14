@@ -13,23 +13,23 @@ type DriversTableRowProps = {
   rank?: number;
 };
 
-export default function StandingsTableRow({ row, onViewRow, rank }: DriversTableRowProps) {
-  const { full_name, driver_number, team_name, headshot_url, points } = row;
+export default function StandingsTableRow({ row, onViewRow }: DriversTableRowProps) {
+  const { rank, name, team, points, number, image } = row;
 
   return (
     <TableRow hover>
       <TableCell width={40}>{rank}</TableCell>
 
-      {row.full_name && (
+      {row.name && (
         <TableCell
           sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           onClick={() => onViewRow()}
         >
-          <Avatar alt={full_name} src={headshot_url} sx={{ mr: 2 }} />
+          <Avatar alt={name} src={image} sx={{ mr: 2 }} />
 
           <ListItemText
-            primary={full_name}
-            secondary={`Driver number: ${driver_number}`}
+            primary={name}
+            secondary={`Driver number: ${number}`}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',
@@ -49,7 +49,7 @@ export default function StandingsTableRow({ row, onViewRow, rank }: DriversTable
             },
           }}
         >
-          {team_name}
+          {team}
         </Box>
       </TableCell>
 
