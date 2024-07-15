@@ -48,7 +48,7 @@ function Searchbar() {
   }, [search]);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'k' && event.metaKey) {
+    if ((event.key === 'k' && event.metaKey) || (event.key === 'k' && event.ctrlKey)) {
       search.onToggle();
       setSearchQuery('');
     }

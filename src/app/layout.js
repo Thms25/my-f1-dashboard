@@ -1,6 +1,3 @@
-// i18n
-import 'src/locales/i18n';
-
 // scrollbar
 import 'simplebar-react/dist/simplebar.min.css';
 

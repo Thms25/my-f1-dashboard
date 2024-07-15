@@ -1,9 +1,11 @@
+'use client';
+
 // @mui
-import { Card, CardHeader, Container } from '@mui/material';
+import { Avatar, Card, CardHeader, Container, ListItemText, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 // Hooks
-import StandingsTable from './table/standings-table';
+import StatsGrid from '@/components/grid/stats-grid';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +15,6 @@ type HomeViewProps = {
 };
 
 export default function HomeView({ driversStandings, teamStandings }: HomeViewProps) {
-  console.log(teamStandings);
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3}>
@@ -24,9 +25,10 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
               subheader="2024 Season"
               sx={{ mb: 3 }}
             />
-            <StandingsTable
+            <StatsGrid
               data={driversStandings.map((driver: any) => {
                 return {
+                  id: +driver.position,
                   rank: +driver.position,
                   name: driver.Driver.fullName,
                   team: driver.Constructors[0].name,
@@ -35,11 +37,48 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
                   number: driver.driverNumber || +driver.Driver.permanentNumber,
                 };
               })}
-              head={[
-                { id: 'rank', label: 'Rank' },
-                { id: 'name', label: 'Driver' },
-                { id: 'team', label: 'Team' },
-                { id: 'points', label: 'Points' },
+              columns={[
+                {
+                  field: 'rank',
+                  headerName: 'Rank',
+                  width: 50,
+                  editable: false,
+                },
+                {
+                  field: 'name',
+                  headerName: 'Driver',
+                  minWidth: 200,
+                  editable: false,
+                  flex: 1,
+                  renderCell: (params: any) => (
+                    <Stack direction={'row'}>
+                      <Avatar alt={params.row.name} src={params.row.image} sx={{ mr: 2 }} />
+
+                      <ListItemText
+                        primary={params.row.name}
+                        secondary={`Driver number: ${params.row.number}`}
+                        primaryTypographyProps={{ typography: 'body2' }}
+                        secondaryTypographyProps={{
+                          component: 'span',
+                          color: 'text.disabled',
+                        }}
+                      />
+                    </Stack>
+                  ),
+                },
+                {
+                  field: 'team',
+                  headerName: 'Team',
+                  minWidth: 120,
+                  editable: false,
+                  flex: 1,
+                },
+                {
+                  field: 'points',
+                  headerName: 'Points',
+                  width: 100,
+                  editable: false,
+                },
               ]}
             />
           </Card>
@@ -51,18 +90,36 @@ export default function HomeView({ driversStandings, teamStandings }: HomeViewPr
               subheader="2024 Season"
               sx={{ mb: 3 }}
             />
-            <StandingsTable
+
+            <StatsGrid
               data={teamStandings.map((team: any) => {
                 return {
+                  id: +team.position,
                   rank: +team.position,
                   team: team.Constructor.name,
                   points: +team.points,
                 };
               })}
-              head={[
-                { id: 'rank', label: 'Rank' },
-                { id: 'team', label: 'Team' },
-                { id: 'points', label: 'Points' },
+              columns={[
+                {
+                  field: 'rank',
+                  headerName: 'Rank',
+                  width: 65,
+                  editable: false,
+                },
+                {
+                  field: 'team',
+                  headerName: 'Team',
+                  minWidth: 120,
+                  editable: false,
+                  flex: 1,
+                },
+                {
+                  field: 'points',
+                  headerName: 'Points',
+                  width: 100,
+                  editable: false,
+                },
               ]}
             />
           </Card>

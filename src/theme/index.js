@@ -6,8 +6,6 @@ import { useMemo } from 'react';
 // @mui
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-// locales
-import { useLocales } from 'src/locales';
 // components
 import { useSettingsContext } from 'src/components/settings';
 // system
@@ -27,8 +25,6 @@ import NextAppDirEmotionCacheProvider from './next-emotion-cache';
 // ----------------------------------------------------------------------
 
 export default function ThemeProvider({ children }) {
-  const { currentLang } = useLocales();
-
   const settings = useSettingsContext();
 
   const darkModeOption = darkMode(settings.themeMode);
@@ -71,10 +67,7 @@ export default function ThemeProvider({ children }) {
 
   theme.components = merge(componentsOverrides(theme), contrastOption.components);
 
-  const themeWithLocale = useMemo(
-    () => createTheme(theme, currentLang.systemValue),
-    [currentLang.systemValue, theme]
-  );
+  const themeWithLocale = useMemo(() => createTheme(theme), [theme]);
 
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'css' }}>

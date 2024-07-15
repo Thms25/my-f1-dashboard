@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
 // routes
 import { paths } from 'src/routes/paths';
-// locales
-import { useLocales } from 'src/locales';
 // components
 import SvgColor from 'src/components/svg-color';
 
@@ -43,27 +41,23 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
-  const { t } = useLocales();
-
   const data = useMemo(
     () => [
-      // OVERVIEW
-      // ----------------------------------------------------------------------
       {
-        subheader: t('overview'),
+        subheader: 'Dashboard',
         items: [
           {
-            title: t('home'),
+            title: 'home',
             path: paths.home,
             icon: ICONS.home,
           },
           {
-            title: t('drivers'),
+            title: 'drivers',
             path: paths.driver.root,
             icon: ICONS.user,
           },
           {
-            title: t('races'),
+            title: 'races',
             path: paths.race.root,
             icon: ICONS.external,
           },
@@ -107,7 +101,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [t]
+    []
   );
 
   return data;

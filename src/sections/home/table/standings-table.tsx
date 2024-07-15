@@ -44,7 +44,7 @@ type StandingsTableProps = {
 
 export default function StandingsTable({ data, showSearch = false, head }: StandingsTableProps) {
   const table = useTable({
-    orderBy: 'rank',
+    orderBy: 'Rank',
   });
   const router = useRouter();
 
@@ -109,7 +109,7 @@ export default function StandingsTable({ data, showSearch = false, head }: Stand
 
       <TableContainer>
         <Scrollbar>
-          <Table size="medium" sx={{ minWidth: 300 }}>
+          <Table size="medium">
             <TableHeadCustom
               order={table.order}
               orderBy={table.orderBy}
