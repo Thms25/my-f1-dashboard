@@ -1,10 +1,3 @@
-// utils
-import { paramCase } from 'src/utils/change-case';
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-
 export const paths = {
   home: '/',
   page403: '/error/403',
@@ -13,6 +6,10 @@ export const paths = {
   driver: {
     root: `/driver`,
     details: (name) => `/driver/${name}`,
+  },
+  team: {
+    root: `/team`,
+    details: (name) => `/team/${name}`,
   },
   race: {
     root: `/race`,

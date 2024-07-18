@@ -1,5 +1,3 @@
-import { races_24 } from '@/utils/data/fake-data';
-
 const MY_API = process.env.MY_API;
 
 export async function getRaces(year: string) {
@@ -18,21 +16,29 @@ export async function getStandings(year: string, table: string) {
     const res = await fetch(process.env.MY_API + '/' + year + '/standings?table=' + tableName);
     const standings = await res.json();
 
-    const data =
-      tableName === 'driverStandings' ? standings.DriverStandings : standings.ConstructorStandings;
-
-    return data;
+    return standings;
   } catch (error: any) {
     throw new Error('Failed to get standings', error);
   }
 }
 
-export async function getCurrentDrivers() {
+export async function getDrivers() {
   try {
     const res = await fetch(process.env.MY_API + '/drivers');
     const drivers = await res.json();
 
     return drivers;
+  } catch (error: any) {
+    throw new Error('Failed to get drivers', error);
+  }
+}
+
+export async function getTeams() {
+  try {
+    const res = await fetch(process.env.MY_API + '/teams');
+    const teams = await res.json();
+
+    return teams;
   } catch (error: any) {
     throw new Error('Failed to get drivers', error);
   }

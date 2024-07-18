@@ -1,4 +1,4 @@
-import { Public_Sans, Barlow } from 'next/font/google';
+import { Averia_Sans_Libre, Lato } from 'next/font/google';
 
 // ----------------------------------------------------------------------
 
@@ -24,15 +24,15 @@ export function responsiveFontSizes({ sm, md, lg }) {
   };
 }
 
-export const primaryFont = Public_Sans({
-  weight: ['400', '500', '600', '700', '800'],
+export const primaryFont = Lato({
+  weight: ['300', '400', '700'],
   subsets: ['latin'],
   display: 'swap',
-  fallback: ['Helvetica', 'Arial', 'sans-serif'],
+  fallback: ['Avenir', 'Helvetica', 'sans-serif'],
 });
 
-export const secondaryFont = Barlow({
-  weight: ['900'],
+export const secondaryFont = Averia_Sans_Libre({
+  weight: ['300', '400', '700'],
   subsets: ['latin'],
   display: 'swap',
   fallback: ['Helvetica', 'Arial', 'sans-serif'],

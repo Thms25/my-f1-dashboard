@@ -57,6 +57,11 @@ export function useNavData() {
             icon: ICONS.user,
           },
           {
+            title: 'teams',
+            path: paths.team.root,
+            icon: ICONS.banking,
+          },
+          {
             title: 'races',
             path: paths.race.root,
             icon: ICONS.external,
