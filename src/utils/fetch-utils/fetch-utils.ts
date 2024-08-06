@@ -33,6 +33,17 @@ export async function getDrivers() {
   }
 }
 
+export async function getDriver(code: string) {
+  try {
+    const res = await fetch(process.env.MY_API + '/drivers');
+    const drivers = await res.json();
+
+    return drivers.find((driver: any) => driver.code === code);
+  } catch (error: any) {
+    throw new Error('Failed to get drivers', error);
+  }
+}
+
 export async function getTeams() {
   try {
     const res = await fetch(process.env.MY_API + '/teams');

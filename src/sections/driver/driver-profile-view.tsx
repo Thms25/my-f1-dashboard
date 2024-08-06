@@ -44,11 +44,7 @@ export default function DriverProfileView({ driver }) {
           height: 180,
         }}
       >
-        <DriverProfileCover
-          team={driver.team_name}
-          name={driver.full_name}
-          avatarUrl={driver.headshot_url}
-        />
+        <DriverProfileCover team={driver.team} name={driver.name} avatarUrl={driver.image} />
 
         <Tabs
           value={currentTab}
@@ -74,7 +70,7 @@ export default function DriverProfileView({ driver }) {
         </Tabs>
       </Card>
 
-      {currentTab === 'profile' && <h1>profile tab content</h1>}
+      {currentTab === 'profile' && <h4>{driver.details.bio}</h4>}
     </Container>
   );
 }
