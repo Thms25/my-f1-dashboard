@@ -17,7 +17,7 @@ export default function DriverProfileCover({ name, avatarUrl, team, coverUrl }) 
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.primary.darker, 0.8),
+          color: alpha(theme.palette.primary.dark, 0.5),
           imgUrl: coverUrl,
         }),
         height: 1,

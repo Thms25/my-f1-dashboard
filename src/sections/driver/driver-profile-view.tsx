@@ -41,10 +41,15 @@ export default function DriverProfileView({ driver }) {
       <Card
         sx={{
           mb: 3,
-          height: 180,
+          height: { xs: 320, md: 180 },
         }}
       >
-        <DriverProfileCover team={driver.team} name={driver.name} avatarUrl={driver.image} />
+        <DriverProfileCover
+          team={driver.team}
+          name={driver.name}
+          avatarUrl={driver.image}
+          coverUrl={driver.car}
+        />
 
         <Tabs
           value={currentTab}
@@ -54,11 +59,11 @@ export default function DriverProfileView({ driver }) {
             bottom: 3,
             zIndex: 9,
             position: 'absolute',
-            bgcolor: 'background.paper',
+            // bgcolor: 'background.paper',
             [`& .${tabsClasses.flexContainer}`]: {
               pr: { md: 3 },
               justifyContent: {
-                sm: 'center',
+                xs: 'center',
                 md: 'flex-end',
               },
             },

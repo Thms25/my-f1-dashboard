@@ -54,3 +54,14 @@ export async function getTeams() {
     throw new Error('Failed to get drivers', error);
   }
 }
+
+export async function getTeam(team: string) {
+  try {
+    const res = await fetch(process.env.MY_API + '/teams');
+    const teams = await res.json();
+
+    return teams.find((team: any) => team.name === team);
+  } catch (error: any) {
+    throw new Error('Failed to get drivers', error);
+  }
+}
