@@ -299,3 +299,12 @@ export const backup_drivers = [
     meeting_key: 1219,
   },
 ]
+
+export const races_24 = [
+  {
+    meeting_key: 1219,
+    session_key: 9158,
+    meeting_name: '2022 Bahrain Grand Prix',
+    meeting_date: '2022-03-20',
+  },
+]

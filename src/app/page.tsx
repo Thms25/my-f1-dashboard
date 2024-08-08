@@ -1,7 +1,13 @@
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Home page</h1>
-    </main>
-  )
+// sections
+import HomeView from '@/sections/home/home-view';
+
+import { getStandings } from '@/utils/fetch-utils/fetch-utils';
+
+// ----------------------------------------------------------------------
+
+export default async function HomePage() {
+  const constructors = await getStandings('2024', 'constructors');
+  const drivers = await getStandings('2024', 'drivers');
+
+  return <HomeView driversStandings={drivers} teamStandings={constructors} />;
 }
