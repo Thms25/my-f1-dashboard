@@ -1,5 +1,6 @@
 import { scrapeDrivers } from '@/utils/api-utils/scrape-drivers';
 import { getTeams } from '@/utils/fetch-utils/fetch-utils';
+import { color } from '@mui/system';
 
 function mergeDriversData(drivers_scraped: any, drivers_data: any, teams: any) {
   const drivers = drivers_data.map((driver: any) => {
@@ -15,9 +16,11 @@ function mergeDriversData(drivers_scraped: any, drivers_data: any, teams: any) {
       name: driver.first_name + ' ' + driver.last_name,
       code: driver.name_acronym,
       image: driver.headshot_url,
+      color: driver.team_colour,
       team: team?.name,
       car: team?.car,
       team_logo: team?.logo,
+      team_id: team?.id,
       driver_number: driver.driver_number,
       country_code: driver.country_code,
       driver_picture: scraped_driver?.image,

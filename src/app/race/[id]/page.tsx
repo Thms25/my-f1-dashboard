@@ -1,6 +1,6 @@
 // sections
 import RaceView from '@/sections/race/race-view';
-import { getDrivers } from '@/utils/fetch-utils/driver-fetch';
+import { getDrivers } from '@/utils/fetch-utils/fetch-utils';
 import { getRace, getRaceSessions, getSessionStandings } from '@/utils/fetch-utils/races-fetch';
 import { getResultFromSession } from '@/utils/points-calculator';
 
@@ -26,5 +26,6 @@ export default async function UserProfilePage({ params }) {
   const raceResult = getResultFromSession(race_standings, drivers);
 
   raceResult.sort((a, b) => a.raceResult - b.raceResult);
+
   return <RaceView race={race} result={raceResult} />;
 }

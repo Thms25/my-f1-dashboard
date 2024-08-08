@@ -10,9 +10,9 @@ import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Iconify from 'src/components/iconify';
 
 // components
-import DriverProfileCover from './driver-page-content/driver-profile-cover';
-import DriverProfileHome from './driver-page-content/driver-profile-home';
-import { Driver } from '@/utils/types/types';
+import TeamProfileCover from './team-page-content/team-profile-cover';
+import { Team } from '@/utils/types/types';
+import TeamProfileHome from './team-page-content/team-profile-home';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ const TABS = [
 
 // ----------------------------------------------------------------------
 
-export default function DriverProfileView({ driver }: { driver: Driver }) {
+export default function TeamProfileView({ team }: { team: Team }) {
   const [currentTab, setCurrentTab] = useState('profile');
 
   const handleChangeTab = useCallback((event, newValue) => {
@@ -46,13 +46,12 @@ export default function DriverProfileView({ driver }: { driver: Driver }) {
           height: { xs: 320, md: 280 },
         }}
       >
-        <DriverProfileCover
-          driver={driver}
-          team={driver.team}
-          name={driver.name}
-          avatarUrl={driver.image}
-          coverUrl={driver.car}
-          color={driver.color}
+        <TeamProfileCover
+          team={team.drivers.map((driver) => driver.name).join(' | ')}
+          name={team.name}
+          avatarUrl={team.logo}
+          coverUrl={team.car}
+          color={team.color}
         />
 
         <Tabs
@@ -79,7 +78,7 @@ export default function DriverProfileView({ driver }: { driver: Driver }) {
         </Tabs>
       </Card>
 
-      {currentTab === 'profile' && <DriverProfileHome driver={driver} />}
+      {currentTab === 'profile' && <TeamProfileHome team={team} />}
     </Container>
   );
 }

@@ -4,7 +4,7 @@
 import { Avatar, Button, Card, CardHeader, Container, ListItemText, Stack } from '@mui/material';
 // components
 import Iconify from 'src/components/iconify';
-import StandingsTable from '../home/table/standings-table';
+// import StandingsTable from '../home/table/standings-table';
 import StatsGrid from '@/components/grid/stats-grid';
 
 // ----------------------------------------------------------------------
@@ -23,14 +23,14 @@ export default function RaceView({ race, result }) {
       </Card>
       <Card>
         <CardHeader title="Race Result" subheader="2024 Season" sx={{ mb: 3 }} />
-        {/* <StatsGrid
+        <StatsGrid
           data={result.map((driver: any) => {
             return {
-              id: +driver.position,
-              rank: +driver.position,
-              name: +driver.fullName,
-              team: driver.Constructor.name,
-              points: +driver.points,
+              id: driver.raceResult,
+              rank: driver.raceResult,
+              name: driver.name,
+              team: driver.team,
+              points: driver.points,
             };
           })}
           columns={[
@@ -52,7 +52,7 @@ export default function RaceView({ race, result }) {
 
                   <ListItemText
                     primary={params.row.name}
-                    secondary={`Driver number: ${params.row.number}`}
+                    secondary={`Driver number: ${params.row.driver_number}`}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{
                       component: 'span',
@@ -75,15 +75,6 @@ export default function RaceView({ race, result }) {
               width: 100,
               editable: false,
             },
-          ]}
-        /> */}
-        <StandingsTable
-          data={result}
-          head={[
-            { id: 'rank', label: 'Rank' },
-            { id: 'name', label: 'Driver' },
-            { id: 'team', label: 'Team' },
-            { id: 'points', label: 'Points' },
           ]}
         />
       </Card>

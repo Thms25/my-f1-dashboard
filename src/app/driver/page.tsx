@@ -1,6 +1,6 @@
 // sections
 import DriversView from '@/sections/driver/drivers-view';
-import { getDrivers } from '@/utils/fetch-utils/driver-fetch';
+import { getDrivers } from '@/utils/fetch-utils/fetch-utils';
 import { Driver } from '@/utils/types/types';
 
 // ----------------------------------------------------------------------

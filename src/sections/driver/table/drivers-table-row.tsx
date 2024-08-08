@@ -16,7 +16,7 @@ type DriversTableRowProps = {
 };
 
 export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps) {
-  const { full_name, driver_number, team_name, headshot_url, country_code, name_acronym } = row;
+  const { name, driver_number, team, image, country_code } = row;
 
   return (
     <TableRow hover>
@@ -24,10 +24,10 @@ export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps
         sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
         onClick={() => onViewRow()}
       >
-        <Avatar alt={full_name} src={headshot_url} sx={{ mr: 2 }} />
+        <Avatar alt={name} src={image} sx={{ mr: 2 }} />
 
         <ListItemText
-          primary={full_name}
+          primary={name}
           secondary={country_code}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{
@@ -47,7 +47,7 @@ export default function DriversTableRow({ row, onViewRow }: DriversTableRowProps
             },
           }}
         >
-          {team_name}
+          {team}
         </Box>
       </TableCell>
 

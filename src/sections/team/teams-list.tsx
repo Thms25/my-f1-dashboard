@@ -51,7 +51,7 @@ export default function TeamsList({ teams }) {
 
             <ListItemText
               primary={
-                <Link href={`/team/${team.name.replace(' ', '-').toLowerCase()}`} color="inherit">
+                <Link href={`/team/${team.id}`} color="inherit">
                   {team.name}
                 </Link>
               }

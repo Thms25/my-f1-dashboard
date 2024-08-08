@@ -1,10 +1,12 @@
 // sections
-import { getDriver } from '@/utils/fetch-utils/driver-fetch';
-import DriverProfileView from 'src/sections/driver/driver-profile-view';
+import TeamProfileView from '@/sections/team/team-profile-view';
+import { getTeam } from '@/utils/fetch-utils/fetch-utils';
 
 // ----------------------------------------------------------------------
 
 export default async function UserProfilePage({ params }) {
-  const driver = await getDriver(params.name);
-  return <DriverProfileView driver={driver} />;
+  const team = await getTeam(params.name);
+  console.log(team);
+
+  return <TeamProfileView team={team} />;
 }

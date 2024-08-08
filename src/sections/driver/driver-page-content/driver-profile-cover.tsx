@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 // @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -7,18 +6,36 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTheme, alpha } from '@mui/material/styles';
 // theme
 import { bgGradient } from 'src/theme/css';
+import { useRouter } from 'next/navigation';
+import { paths } from '@/routes/paths';
+import { Driver } from '@/utils/types/types';
 
 // ----------------------------------------------------------------------
 
-export default function DriverProfileCover({ name, avatarUrl, team, coverUrl }) {
+type DriverProfileCoverProps = {
+  driver: Driver;
+  name: string;
+  avatarUrl: string;
+  team: string;
+  coverUrl: string;
+  color: string;
+};
+
+export default function DriverProfileCover({
+  driver,
+  name,
+  avatarUrl,
+  team,
+}: DriverProfileCoverProps) {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.primary.dark, 0.5),
-          imgUrl: coverUrl,
+          color: alpha(`#${driver.color}`, 0.25),
+          imgUrl: driver.car,
         }),
         height: 1,
         color: 'common.white',
@@ -35,7 +52,7 @@ export default function DriverProfileCover({ name, avatarUrl, team, coverUrl }) 
         }}
       >
         <Avatar
-          src={avatarUrl}
+          src={driver.image}
           alt={name}
           sx={{
             mx: 'auto',
@@ -51,27 +68,21 @@ export default function DriverProfileCover({ name, avatarUrl, team, coverUrl }) 
             ml: { md: 3 },
             textAlign: { xs: 'center', md: 'unset' },
           }}
-          primary={name}
-          secondary={team}
+          primary={driver.name}
+          secondary={driver.team}
           primaryTypographyProps={{
-            typography: 'h4',
-            color: 'text.primary',
+            typography: 'h3',
+            color: 'text.white',
           }}
           secondaryTypographyProps={{
-            mt: 0.5,
+            typography: 'h5',
             color: 'text.secondary',
             component: 'span',
-            typography: 'body2',
+            sx: { cursor: 'pointer' },
+            onClick: () => router.push(paths.team.details(driver.team_id)),
           }}
         />
       </Stack>
     </Box>
   );
 }
-
-DriverProfileCover.propTypes = {
-  avatarUrl: PropTypes.string,
-  coverUrl: PropTypes.string,
-  name: PropTypes.string,
-  team: PropTypes.string,
-};

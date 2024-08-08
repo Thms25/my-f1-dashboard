@@ -60,7 +60,7 @@ export async function getTeam(team: string) {
     const res = await fetch(process.env.MY_API + '/teams');
     const teams = await res.json();
 
-    return teams.find((team: any) => team.name === team);
+    return teams.find((t: any) => t.id === team);
   } catch (error: any) {
     throw new Error('Failed to get drivers', error);
   }

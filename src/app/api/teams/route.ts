@@ -1,5 +1,6 @@
 import { scrapeTeams } from '@/utils/api-utils/scrape-teams';
 import { getDrivers } from '@/utils/fetch-utils/fetch-utils';
+import { color } from '@mui/system';
 
 function sortTeams(standings, drivers, teams) {
   const team_standings = standings.map((standing) => {
@@ -22,6 +23,7 @@ function sortTeams(standings, drivers, teams) {
       car: team?.car || '',
       wins: +standing.wins,
       points: +standing.points,
+      color: driver_pair[0].color,
       drivers: driver_pair,
       details: team?.details || {},
     };
@@ -37,6 +39,7 @@ export async function GET(req: Request) {
     const teams = await scrapeTeams();
     const res = await fetch(`${process.env.ERGAST_API}/${season}/ConstructorStandings.json`);
     const data = await res.json();
+
     const standing_data = data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
 
     const standings = sortTeams(standing_data, drivers, teams);

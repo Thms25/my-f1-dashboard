@@ -17,7 +17,6 @@ import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
-  TablePaginationCustom,
 } from 'src/components/table';
 
 // Components
@@ -128,7 +127,7 @@ export default function DriversTable({ data }: { data: Driver[] }) {
                   <DriversTableRow
                     key={row.driver_number}
                     row={row}
-                    onViewRow={() => handleViewRow(row.name_acronym)}
+                    onViewRow={() => handleViewRow(row.code)}
                   />
                 ))}
 
@@ -173,8 +172,8 @@ function applyFilter({ inputData, comparator, filters }) {
   if (name) {
     inputData = inputData.filter(
       (driver: Driver) =>
-        driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        driver.full_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        driver.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        driver.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
         driver.country_code.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }

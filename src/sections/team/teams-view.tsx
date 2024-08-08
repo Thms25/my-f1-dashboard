@@ -11,10 +11,8 @@ export default function TeamsView({ teams }: TeamssViewProps) {
     <Container maxWidth="xl">
       <Grid container spacing={3}>
         <Grid xs={12}>
-          {/* <Card> */}
           <CardHeader title="2024 F1 Teams" subheader="10 Teams" sx={{ mb: 3 }} />
           <TeamsList teams={teams} />
-          {/* </Card> */}
         </Grid>
       </Grid>
     </Container>
