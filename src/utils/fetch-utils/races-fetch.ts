@@ -2,7 +2,10 @@ import { races_24 } from '@/utils/data/fake-data';
 import { countries, getFlag } from '../data/countries';
 import { race_calendar_24 } from '../data/race-calendar';
 
-const MY_API = process.env.MY_API;
+const MY_API =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000/api'
+    : process.env.VERCEL_URL + '/api';
 
 export async function getRaces(year: string) {
   try {
