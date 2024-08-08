@@ -9,7 +9,6 @@ import { Team } from '@/utils/types/types';
 
 export default async function TeamsPage() {
   const teams = (await getTeams()) as Team[];
-  console.log(teams);
 
   return <TeamsView teams={teams} />;
 }

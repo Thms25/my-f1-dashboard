@@ -1,4 +1,5 @@
 import { useSettingsContext } from '@/components/settings';
+import { useTheme } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import { useState } from 'react';
@@ -50,10 +51,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function ModeSwitch({ theme }) {
-  const settings = useSettingsContext();
+export default function ModeSwitch() {
+  const settings = useSettingsContext() as any;
+  const theme = useTheme() as any;
   const [checked, setChecked] = useState(theme.palette.mode !== 'dark');
-
   const handleChange = (e: any) => {
     setChecked(e.target.checked);
     settings.onUpdate('themeMode', e.target.checked ? 'dark' : 'light');

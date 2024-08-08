@@ -28,7 +28,7 @@ function sortTeams(standings, drivers, teams) {
   return team_standings;
 }
 
-export async function GET(req: Request, { params }: { params: { season: string } }) {
+export async function GET({ params }: { params: { season: string } }) {
   try {
     const drivers = await getDrivers();
     const teams = await scrapeTeams();

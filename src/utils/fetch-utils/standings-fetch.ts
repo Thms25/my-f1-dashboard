@@ -30,7 +30,7 @@ export async function getStandingsOld(races: any[], drivers: any[]) {
       for (const session of race_session) {
         const race_standings = await getSessionStandings(session.session_key, session.meeting_key);
 
-        const race_result = getResultFromSession(race_standings, drivers) as DriverResult[];
+        const race_result = getResultFromSession(race_standings, drivers) as any[];
 
         for (const result of race_result) {
           if (!result.driver_number) continue;

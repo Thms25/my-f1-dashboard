@@ -1,4 +1,4 @@
-import Iconify from '@/components/iconify';
+import Iconify from '@/components/iconify/iconify';
 import { Avatar, Box, Card, Divider, Link, ListItemText, Stack, Typography } from '@mui/material';
 
 export default function TeamsList({ teams }) {
