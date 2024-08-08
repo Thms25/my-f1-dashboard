@@ -409,6 +409,11 @@ export const countries = [
     code: 'gb',
   },
   {
+    flag: 'https://twemoji.maxcdn.com/2/svg/1f1ec-1f1e7.svg',
+    country: 'Great Britain',
+    code: 'gb',
+  },
+  {
     flag: 'https://twemoji.maxcdn.com/2/svg/1f1ec-1f1e9.svg',
     country: 'Grenada',
     code: 'gd',
@@ -1302,4 +1307,10 @@ export const countries = [
     country: 'Wales',
     code: 'uk',
   },
-]
+];
+
+export function getFlag(name: string) {
+  const found_country = countries.find((country) => country.country === name);
+
+  return found_country ? `flag:${found_country.code}-4x3` : 'noto-v1:world-map';
+}
