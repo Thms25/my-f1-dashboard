@@ -1,5 +1,5 @@
-// 'use client'
-
+import Container from '@/components/Container'
+import { DriversStandings } from '@/components/tables/DriversStandings'
 import {
   Card,
   CardContent,
@@ -8,22 +8,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Driver } from '@/utilis/types'
 
-export default function HomeView() {
+type HomeViewTypeProps = {
+  drivers: Driver[]
+}
+
+export default function HomeView({ drivers }: HomeViewTypeProps) {
+  const year = new Date().getFullYear()
   return (
-    <section>
+    <Container>
       <Card>
         <CardHeader>
-          <CardTitle>Home Page</CardTitle>
-          <CardDescription>Pitstat app</CardDescription>
+          <CardTitle>{year} F1 season</CardTitle>
+          <CardDescription>Season data overview</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Card Content</p>
+          <DriversStandings drivers={drivers} />
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>
         </CardFooter>
       </Card>
-    </section>
+    </Container>
   )
 }
