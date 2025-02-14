@@ -1,32 +1,6 @@
 'use client'
 
-import * as React from 'react'
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
+// components
 import {
   Table,
   TableBody,
@@ -35,254 +9,125 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { AspectRatio } from '@radix-ui/react-aspect-ratio'
+import Image from 'next/image'
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-]
+// hooks
+import { useRouter } from 'next/navigation'
 
-export type Payment = {
-  id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
+// types
+import { Driver, Team } from '@/utilis/types'
+import { paths } from '@/utilis/paths'
+
+type DriversStandingsProps = {
+  drivers: Driver[]
+  teams: Team[]
 }
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    accessorKey: 'status',
-    header: 'Name',
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('status')}</div>
-    ),
-  },
-  {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Team
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
-  },
-  {
-    accessorKey: 'amount',
-    header: () => <div className="text-right">Points</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'))
+// ---------------------------------------------------------------------
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-  },
-  // {
-  //   id: 'actions',
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const payment = row.original
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuItem
-  //             onClick={() => navigator.clipboard.writeText(payment.id)}
-  //           >
-  //             Copy payment ID
-  //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem>View customer</DropdownMenuItem>
-  //           <DropdownMenuItem>View payment details</DropdownMenuItem>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     )
-  //   },
-  // },
-]
-
-export function DriversStandings({ drivers }: { drivers: any }) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  })
+export default function DriversStandings({
+  drivers,
+  teams,
+}: DriversStandingsProps) {
+  const tableHead = [
+    { title: 'Rank', className: 'w-[40px]' },
+    { title: 'Driver', className: 'min-w-[200px]' },
+    { title: 'Team', className: 'min-w-[200px]' },
+    { title: 'Points', className: 'w-[100px] text-right' },
+  ]
+  const router = useRouter()
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={event =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(column => column.getCanHide())
-              .map(column => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={value => column.toggleVisibility(!!value)}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-    </div>
+    <Table className="w-full h-1/2">
+      <TableHeader>
+        <TableRow className=" font-bold">
+          {tableHead.map((head, index) => (
+            <TableHead
+              key={index}
+              className={`${head.className} text-zinc-800`}
+            >
+              {head.title}
+            </TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody className="">
+        {drivers.map(driver => {
+          const driverTeam = teams.find(
+            team => team.id === driver.team.toLowerCase().replaceAll(' ', '_'),
+          )
+
+          return (
+            <TableRow
+              key={driver.id}
+              className="text-zinc-800 hover:bg-transparent"
+            >
+              <TableCell>{driver.rank}</TableCell>
+              <TableCell
+                className="flex items-center gap-3 cursor-pointer hover:bg-zinc-50"
+                onClick={() => router.push(paths.drivers.details(driver.id))}
+              >
+                <Avatar>
+                  <AvatarImage src={driver.picture} alt="driver-picture" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="">
+                  <h4>{driver.name}</h4>
+                  <div className="flex items-center - gap-2 text-zinc-500">
+                    <div className="w-[28px]">
+                      <AspectRatio ratio={16 / 9}>
+                        <Image
+                          src={driver.info.flag}
+                          alt="driver-flag"
+                          fill
+                          sizes="40px"
+                          // className="opacity-80"
+                        />
+                      </AspectRatio>
+                    </div>
+                    <p> | {driver.number}</p>
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell
+                className="hover:bg-zinc-50 cursor-pointer"
+                onClick={() => router.push(`/teams/${driverTeam.id}`)}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-[48px] h-[48px]">
+                    <AspectRatio ratio={16 / 9}>
+                      <Image
+                        src={driverTeam.logo}
+                        alt="team-car"
+                        width={48}
+                        height={48}
+                        className="opacity-80 object-contain"
+                      />
+                    </AspectRatio>
+                  </div>
+                  <div className="flex flex-col h-[48px]">
+                    <h4 className="ml-1 font-semibold text-zinc-600">
+                      {driver.team}
+                    </h4>
+                    <div className="w-[100px] h-[40px]">
+                      <Image
+                        src={driverTeam.car}
+                        alt="team-car"
+                        width={140}
+                        height={80}
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell className="text-right">{0}</TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
   )
 }

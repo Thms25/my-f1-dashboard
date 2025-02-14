@@ -48,7 +48,7 @@ const sidebarItems = [
 
 export function AppSidebar() {
   const state = useSidebar()
-  console.log(state)
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="ml-2 py-4 text-sky-800">

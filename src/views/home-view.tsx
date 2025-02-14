@@ -1,5 +1,5 @@
 import Container from '@/components/Container'
-import { DriversStandings } from '@/components/tables/DriversStandings'
+import DriversStandings from '@/components/tables/DriversStandings'
 import {
   Card,
   CardContent,
@@ -8,27 +8,25 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Driver } from '@/utilis/types'
+import { Driver, Team } from '@/utilis/types'
 
 type HomeViewTypeProps = {
   drivers: Driver[]
+  teams: Team[]
 }
 
-export default function HomeView({ drivers }: HomeViewTypeProps) {
+export default function HomeView({ drivers, teams }: HomeViewTypeProps) {
   const year = new Date().getFullYear()
   return (
     <Container>
       <Card>
         <CardHeader>
-          <CardTitle>{year} F1 season</CardTitle>
-          <CardDescription>Season data overview</CardDescription>
+          <CardTitle>Driver Standing</CardTitle>
+          <CardDescription>{year} Season</CardDescription>
         </CardHeader>
         <CardContent>
-          <DriversStandings drivers={drivers} />
+          <DriversStandings drivers={drivers} teams={teams} />
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
       </Card>
     </Container>
   )

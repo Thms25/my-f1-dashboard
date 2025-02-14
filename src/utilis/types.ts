@@ -5,7 +5,7 @@ export type Driver = {
   number: string
   team: string
   rank: number
-  pciture: string
+  picture: string
   helmet: string
   info: driver_info
   images: string[]
@@ -24,3 +24,5 @@ type driver_info = {
   place_of_birth: string
   flag: string
 }
+
+export type Team = any
