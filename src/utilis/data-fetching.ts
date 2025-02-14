@@ -28,3 +28,16 @@ export async function getTeams(season: number = YEAR) {
     return []
   }
 }
+export async function getRaces(season: number = YEAR) {
+  try {
+    const response = await fetch(`${MY_API}/races?year=${season}`)
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    const data = await response.json()
+    return data
+  } catch {
+    console.error('Error fetching data')
+    return []
+  }
+}
