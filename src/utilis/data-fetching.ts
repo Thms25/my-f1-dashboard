@@ -41,3 +41,17 @@ export async function getRaces(season: number = YEAR) {
     return []
   }
 }
+
+export async function getRace(round: number, season: number = YEAR) {
+  try {
+    const response = await fetch(`${MY_API}/races/${round}?year=${season}`)
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    const data = await response.json()
+    return data
+  } catch {
+    console.error('Error fetching data')
+    return {}
+  }
+}

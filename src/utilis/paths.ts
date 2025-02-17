@@ -1,15 +1,17 @@
+const year = new Date().getFullYear()
+
 export const paths = {
-  home: '/',
+  home: '/' + year,
   drivers: {
-    root: '/drivers',
-    details: (id: any) => `/drivers/${id}`,
+    root: (y: any = year) => `/${y}/drive`,
+    details: (id: any, y: any = year) => `/${y}/drivers/${id}`,
   },
   teams: {
-    root: '/teams',
-    details: (id: any) => `/teams/${id}`,
+    root: (y: any = year) => `/${y}/teams`,
+    details: (id: any, y: any = year) => `/${y}/teams/${id}`,
   },
   races: {
-    root: '/races',
-    details: (id: any) => `/races/${id}`,
+    root: (y: any = year) => `/${y}/races`,
+    details: (id: any, y: any = year) => `/${y}/races/${id}`,
   },
 }

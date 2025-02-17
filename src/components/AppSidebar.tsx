@@ -21,27 +21,28 @@ import {
   peopleIcon,
   raceFlagIcon,
 } from '../../public/svgdata'
+import { paths } from '@/utilis/paths'
 
 // Menu items.
 const sidebarItems = [
   {
     title: 'Home',
-    url: '#',
+    url: paths.home,
     icon: homeIcon,
   },
   {
     title: 'Drivers',
-    url: '#',
+    url: paths.drivers.root(),
     icon: helmetIcon,
   },
   {
     title: 'Teams',
-    url: '#',
+    url: paths.teams.root(),
     icon: peopleIcon,
   },
   {
     title: 'Races',
-    url: '#',
+    url: paths.races.root(),
     icon: raceFlagIcon,
   },
 ]

@@ -1,13 +1,14 @@
+import { getDrivers, getRace } from '@/utilis/data-fetching'
+import RaceView from '@/views/races/race-view'
+
 export default async function RacePage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: number; season: string }>
 }) {
-  const { id } = await params
+  const { id, season } = await params
+  const race = await getRace(id, +season)
+  // const drivers = await getDrivers()
 
-  return (
-    <div>
-      <h1>Team page with id : {id}</h1>
-    </div>
-  )
+  return <RaceView race={race} season={season} />
 }

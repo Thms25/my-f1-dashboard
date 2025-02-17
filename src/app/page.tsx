@@ -1,10 +1,5 @@
-import { getDrivers, getTeams } from '@/utilis/data-fetching'
-import { Driver, Team } from '@/utilis/types'
-import HomeView from '@/views/home-view'
+import { redirect } from 'next/navigation'
 
-export default async function Home() {
-  const drivers = (await getDrivers()) as Driver[]
-  const teams = (await getTeams()) as Team[]
-
-  return <HomeView drivers={drivers} teams={teams} />
+export default function Page() {
+  redirect('/2025')
 }
