@@ -17,8 +17,8 @@ export default function BreadCrumb({ items }: { items: BreadCrumbItem[] }) {
     <Breadcrumb className="mb-4 font-semibold">
       <BreadcrumbList>
         {items.map((item, index) => (
-          <>
-            <BreadcrumbItem key={index}>
+          <div key={index} className="flex items-center">
+            <BreadcrumbItem>
               <BreadcrumbLink
                 href={item.href || '#'}
                 className={`text-zinc-500${
@@ -33,7 +33,7 @@ export default function BreadCrumb({ items }: { items: BreadCrumbItem[] }) {
             {index < items.length - 1 && (
               <BreadcrumbSeparator aria-label="breadcrumb separator" />
             )}
-          </>
+          </div>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
