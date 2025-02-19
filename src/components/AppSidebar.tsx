@@ -47,11 +47,28 @@ const sidebarItems = [
   },
 ]
 
+const analyticsTools = [
+  {
+    title: 'Driver Stats',
+    url: paths.analytics.drivers(),
+    icon: helmetIcon,
+  },
+  {
+    title: 'Team Overview',
+    url: paths.analytics.teams(),
+    icon: peopleIcon,
+  },
+  {
+    title: 'Race Analysis',
+    url: paths.analytics.races(),
+    icon: raceFlagIcon,
+  },
+]
+
 export function AppSidebar() {
   const state = useSidebar()
-
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader className="ml-2 py-4 text-sky-800">
         <Link
           className={`flex items-center gap-2 ${
@@ -90,10 +107,10 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Past Seasons</SidebarGroupLabel>
+          <SidebarGroupLabel>Analytics Tools</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sidebarItems.map(item => (
+              {analyticsTools.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>

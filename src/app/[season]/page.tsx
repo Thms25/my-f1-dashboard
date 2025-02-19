@@ -5,10 +5,9 @@ import HomeView from '@/views/home-view'
 export default async function Home({
   params,
 }: {
-  params: {
-    params: Promise<{ season: string }>
-  }
+  params: Promise<{ season: string }>
 }) {
+  const { season } = await params
   const drivers = (await getDrivers()) as Driver[]
   const teams = (await getTeams()) as Team[]
 

@@ -1,12 +1,13 @@
+import { getDriver } from '@/utilis/data-fetching'
+import DriverView from '@/views/drivers/driver-view'
+
 export default async function DriverPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string; season: string }>
 }) {
-  const { id } = await params
-  return (
-    <div>
-      <h1>driver page with id : {id}</h1>
-    </div>
-  )
+  const { id, season } = await params
+  const driver = await getDriver(id, season)
+
+  return <DriverView driver={driver} season={season} />
 }
