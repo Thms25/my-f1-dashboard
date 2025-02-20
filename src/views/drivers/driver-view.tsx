@@ -1,8 +1,13 @@
+'use client'
+
 import BreadCrumb from '@/components/Breadcrumb'
 import Container from '@/components/Container'
+import ProfileCaroussel from '@/components/profile/profile-caroussel'
 import ProfileHeader from '@/components/profile/profile-header'
 import ProfileTabs from '@/components/profile/profile-tabs'
 import { Driver, Team } from '@/utilis/types'
+import { useState } from 'react'
+import DriverOverview from './driver/driver-overview'
 
 type DriversViewTypeProps = {
   driver: Driver
@@ -10,6 +15,8 @@ type DriversViewTypeProps = {
 }
 
 export default function DriverView({ driver, season }: DriversViewTypeProps) {
+  const tabs = ['Overview', 'Statistics', 'Gallery']
+  const [currentTab, setCurrentTab] = useState(tabs[0])
   return (
     <Container>
       <BreadCrumb
@@ -26,12 +33,15 @@ export default function DriverView({ driver, season }: DriversViewTypeProps) {
         subtitle={driver.team}
       />
       <ProfileTabs
-        tabs={[
-          { name: 'Overview', link: `/${season}/drivers/${driver.id}` },
-          { name: 'Results', link: `/${season}/drivers/${driver.id}/results` },
-          { name: 'Career', link: `/${season}/drivers/${driver.id}/career` },
-        ]}
+        tabs={tabs}
+        onTabChange={value => setCurrentTab(value)}
+        currentTab={currentTab}
       />
+      {currentTab === 'Overview' && <DriverOverview driver={driver} />}
+      {currentTab === 'Statistics' && <div>Statistics</div>}
+      {currentTab === 'Gallery' && (
+        <ProfileCaroussel images={[...driver.images, driver.helmet]} />
+      )}
     </Container>
   )
 }
