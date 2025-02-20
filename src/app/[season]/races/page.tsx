@@ -6,7 +6,7 @@ import RacesView from '@/views/races/races-view'
 export default async function RacesPage({
   params,
 }: {
-  params: Promise<{ season: number }>
+  params: Promise<{ season: string }>
 }) {
   const { season } = await params
   const races = (await getRaces(season)) as Race[]

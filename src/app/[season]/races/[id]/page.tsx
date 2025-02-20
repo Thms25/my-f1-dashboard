@@ -7,7 +7,7 @@ export default async function RacePage({
   params: Promise<{ id: number; season: string }>
 }) {
   const { id, season } = await params
-  const race = await getRace(id, +season)
+  const race = await getRace(id, season)
   // const drivers = await getDrivers()
 
   return <RaceView race={race} season={season} />
